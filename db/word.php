@@ -1,13 +1,15 @@
 <?php
 function wordAdd($data) {
+	$dict  = $data["dict"];
 	$lang1 = $data["lang1"];
 	$lang2 = $data["lang2"];
-	$query = "INSERT INTO word (lang1,lang2)
-					 VALUES ('$lang1', '$lang2')";
+	$query = "INSERT INTO word (lang1,lang2, dict)
+					 VALUES ('$lang1', '$lang2', $dict)";
     query($query);
 }
-function wordTopIds($limit) {
+function wordTopIds($dictId, $limit) {
 	$query = "SELECT `id` FROM word
+						  WHERE word.dict = $dictId
 						  ORDER BY rating ASC
 						  LIMIT $limit";
 	$res = query($query);

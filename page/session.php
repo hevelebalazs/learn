@@ -2,14 +2,23 @@
 include "db/word.php";
 //start session
 if(!isset($_SESSION["ids"])) {
-	$ids = wordTopIds(30);
-	$_SESSION["ids"] = $ids;
-	$_SESSION["index"] = 0;
+	if(!isset($_POST["dict"])) {
+		//select dictionary
+		include "db/dict.php";
+		$dicts = dictAll();
+		include "view/session/select_dict.php";
+		exit;
+	} else {
+		$dictId = $_POST["dict"];
+		$ids = wordTopIds($dictId, 30);
+		$_SESSION["ids"] = $ids;
+		$_SESSION["index"] = 0;
+	}
 }
 $ids = $_SESSION["ids"];
 $index = $_SESSION["index"];
 //validation
-if($_SERVER["REQUEST_METHOD"] == "POST") {
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["guess"])) {
 	$id = $ids[$index];
 	$word = wordAtId($id);
 	$lang2 = $word["lang2"];
@@ -29,10 +38,10 @@ if(isset($ids[$index])) {
 	$id = $ids[$index];
 	$word = wordAtId($id);
 	$lang1 = $word["lang1"];
-	include "view/session.php";
+	include "view/session/session.php";
 } else {
 	unset($_SESSION["ids"]);
 	unset($_SESSION["index"]);
-	include "view/finish.php";
+	include "view/session/finish.php";
 }
 ?>

@@ -8,5 +8,5 @@ wordBad($id);
 $word = wordAtId($id);
 $lang1 = $word["lang1"];
 $lang2 = $word["lang2"];
-include "view/giveup.php";
-include "view/session.php";
+include "view/session/giveup.php";
+include "view/session/session.php";
